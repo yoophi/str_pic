@@ -1,1 +1,1 @@
-# str_pic
+# DummyImage
