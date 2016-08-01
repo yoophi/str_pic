@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dummy Images</title>
+</head>
+<body>
+
+<h1>DummyImage generator</h1>
+
+<div><img src="{{ url_for('dummyimage.images', size='200x200') }}"/><img
+        src="{{ url_for('dummyimage.images', size='200x200', zoom='false') }}"/>
+</div>
+<div><img src="{{ url_for('dummyimage.images', size='400x200', bg_color='pink') }}"/><img
+        src="{{ url_for('dummyimage.images', size='400x200', text_color='blue', border='0' ) }}"/></div>
+<div>{% for c in 'Hello!' -%}
+    <img src="{{ url_for('dummyimage.images', size='100', text=c, bg_color='!ccc', zoom='false', fontsize=40) }}"/>
+{%- endfor %}</div>
+
+</body>
+</html>

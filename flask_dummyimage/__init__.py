@@ -1,9 +1,12 @@
+# -*- coding: utf8 -*-
 import os
 import re
 from io import BytesIO
 
 from PIL import Image, ImageDraw, ImageFont, ImageColor
-from flask import Flask, send_file, request, render_template
+from flask import Blueprint, render_template, Flask, send_file, request
+
+__version__ = '0.0.1'
 
 app = Flask(__name__)
 
@@ -14,6 +17,25 @@ DEFAULT_COLORS = {
     'TEXT': 'black',
     'BORDER': 'silver',
 }
+
+
+class DummyImage:
+    app = None
+
+    def __init__(self, app=None, **kwargs):
+        if app:
+            self.init_app(app, **kwargs)
+
+    def init_app(self, app, url_prefix='/dummyimage', endpoint='dummyimage', route='dummyimage'):
+        app.register_blueprint(create_blueprint(__name__, endpoint=endpoint, route=route), url_prefix=url_prefix)
+
+
+def create_blueprint(import_name, endpoint='dummyimage', route='dummyimage'):
+    bp = Blueprint('dummyimage', import_name, )
+    bp.route('/{route}'.format(route=route), endpoint=endpoint)(dummyimage)
+    bp.route('/{route}/<string:size>'.format(route=route), endpoint=endpoint)(dummyimage)
+
+    return bp
 
 
 @app.route('/')
